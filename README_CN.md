@@ -2,7 +2,173 @@
 
 [English](./README.md)
 
-> 像编辑 PPT 一样可视化编辑本地 HTML 文件 — 拖拽、缩放、表格、图表、图片粘贴、图片裁剪、自动保存
+> 像编辑 PPT 一样可视化编辑本地 HTML 文件 — 拖拽、缩放、图片裁剪、自动保存、双屏演讲者模式
+
+一款 Chrome 扩展，让你无需写代码就能直接在浏览器中可视化编辑 HTML 页面。
+
+![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-blue?logo=googlechrome)
+![Manifest V3](https://img.shields.io/badge/Manifest-V3-green)
+
+## ✨ 功能特性
+
+- 🖱️ **拖拽移动** — 选中元素后直接拖拽移动位置
+- 📐 **缩放调整** — 拖拽手柄调整元素大小
+- ✏️ **文字编辑** — 双击文字直接编辑内容
+- 🎨 **样式工具栏** — 修改字号、颜色、加粗、对齐等样式
+- 📊 **表格编辑** — 增删行列、合并单元格
+- 🖼️ **图片处理** — 粘贴图片、替换图片
+- ✂️ **图片裁剪** — PPT 风格的图片裁剪，8 向拖拽手柄实时预览，基于 `clip-path` 非破坏性裁剪
+- 💾 **自动保存** — 首次 `Ctrl+S` 授权后，每次编辑停止 1.5 秒自动覆盖保存源文件
+- 🎤 **演讲者模式** — 双屏演讲者视图：左侧当前页全屏预览、右上下一页缩略图、可编辑备注区（自动保存）、计时器。按 `P` 键开启，配合内置 Qualcomm 模板使用。
+- 📏 **对齐参考线** — 拖拽时自动显示对齐辅助线
+- ↩️ **撤销/重做** — 完整的操作历史记录
+- 📑 **页面排序** — 支持 PPT 风格的页面重新排序
+- 🎨 **Canvas 画板模式** — 类 Figma 自由画板，支持文本、矩形、椭圆、线段、箭头绘制，颜色选择器、SVG/PNG 导出
+- 🖨️ **PDF 分页预览** — 可视化预览分页位置，智能避免元素内断页，一键导出 PDF
+- 📊 **图表排版组件** — 预设统计卡片、KPI 网格、图例等图表组件，精细排版控制
+
+## 📦 安装
+
+### 从源码安装（开发者模式）
+
+1. 克隆本仓库：
+   ```bash
+   git clone https://github.com/qti-timzhang/qualcomm-html-visual-editor.git
+   ```
+
+2. 打开 Chrome，访问 `chrome://extensions/`
+
+3. 开启右上角 **"开发者模式"**
+
+4. 点击 **"加载已解压的扩展程序"**，选择本项目文件夹
+
+5. 完成！在任何本地 HTML 页面（`file:///` 协议）上点击扩展图标即可开始编辑
+
+## 🚀 使用方法
+
+1. 用 Chrome 打开一个本地 HTML 文件
+2. 点击扩展图标，启用编辑模式
+3. **单击** 选中元素 → 出现浮动工具栏
+4. **拖拽** 移动元素位置
+5. **双击** 文字进入编辑模式
+6. 编辑完成后，按 `Ctrl+S` 保存
+
+## 📸 功能截图
+
+### 浮动工具栏 & 右键菜单
+单击任意元素弹出浮动工具栏，提供字体、样式、对齐、层级等一键操作。右键可快速复制/粘贴样式、调整层叠顺序、锁定或删除元素。
+
+![工具栏与右键菜单](docs/screenshots/context-menu-demo.png)
+
+### ✂️ 图片裁剪
+
+1. 单击选中任意 `<img>` 图片 — 工具栏出现 **✂️ 裁剪按钮**
+2. 点击裁剪按钮进入裁剪模式
+3. 拖动 8 个手柄（四边 + 四角）调整裁剪区域，实时预览效果
+4. 按 **Enter** 或点击 **✓ 应用** 确认；按 **Esc** 或点击 **取消** 还原
+5. 随时可点工具栏 **↺ 重置裁剪** 移除裁剪效果
+6. 裁剪以 `clip-path: inset(...)` 内联样式存储，原始图片数据完全不变
+
+![图片裁剪演示](docs/screenshots/crop-demo.png)
+*PPT 风格裁剪模式 — 拖动 8 个白色手柄调整可见区域，深色遮罩为裁剪掉的部分，点击 ✓ 应用确认。*
+
+### 💾 自动保存
+
+1. 做任意修改后，按 `Ctrl+S` — Chrome 弹出文件写入权限确认
+2. 点击「允许」授权后，后续每次编辑停止 **1.5 秒**自动覆盖写回源文件
+3. 右下角状态栏显示 **"保存中…"** 和 **"已保存"** 状态提示
+4. 关闭标签页后权限重置，重新打开时再次按 `Ctrl+S` 授权一次即可
+
+### 🎤 演讲者模式
+
+需配合内置 Qualcomm PPT 模板使用（从扩展弹窗下载）。
+
+1. 用 Chrome 打开模板文件并启用编辑模式
+2. 点击工具栏 **💬 备注按钮** 打开演讲者备注侧边栏，为每张幻灯片输入备注
+3. 按 **`P`** 键开启演讲者窗口（无需全屏）
+4. 演讲者窗口包含：
+   - **左侧**：当前幻灯片全屏预览
+   - **右上**：下一张幻灯片缩略图
+   - **右中**：计时器（开始 / 暂停 / 重置）
+   - **右下**：可编辑备注区，修改后自动同步保存到主文件
+5. 用**方向键**或 **◀ ▶ 按钮**翻页 — 两个窗口实时同步
+
+### 📥 Qualcomm PPT 模板
+
+扩展内置了一套 Qualcomm 官方风格的 HTML 演示模板。点击扩展弹窗中的 **「下载 Qualcomm PPT 模板」** 按钮下载，用 Chrome 打开后即可直接编辑。
+
+![Qualcomm 模板预览](docs/screenshots/qualcomm-template-preview.png)
+*Qualcomm HTML PPT 模板 — 封面页。包含 8 种幻灯片布局：封面、议程、章节页、内容卡片、对比、流程图、表格、图表。*
+
+## 🏗️ 项目结构
+
+```
+├── manifest.json          # 扩展配置（Manifest V3）
+├── background/            # Service Worker
+├── content/               # Content Scripts（核心编辑逻辑）
+│   ├── editor-core.js     # 编辑器核心控制（含自动保存）
+│   ├── selector.js        # 元素选择器
+│   ├── toolbar.js         # 浮动工具栏
+│   ├── drag-move.js       # 拖拽移动
+│   ├── resize.js          # 缩放调整（支持 clip-path 感知定位）
+│   ├── text-edit.js       # 文字编辑
+│   ├── table-edit.js      # 表格编辑
+│   ├── image-handler.js   # 图片处理
+│   ├── image-crop.js      # 图片裁剪（PPT 风格，非破坏性）
+│   ├── notes-editor.js    # 演讲者备注侧边栏
+│   ├── align-guide.js     # 对齐参考线
+│   ├── insert-panel.js    # 插入面板
+│   ├── context-menu.js    # 右键菜单
+│   ├── page-sorter.js     # 页面排序
+│   ├── canvas-mode.js     # Canvas 画板模式
+│   ├── pdf-paginator.js   # PDF 分页预览与导出
+│   ├── chart-typography.js# 图表排版组件
+│   └── history.js         # 撤销/重做
+├── templates/             # 内置演示模板
+│   ├── qualcomm-template.html  # 自包含 Qualcomm PPT 模板
+│   ├── presenter.html     # 演讲者窗口（以 Blob URL 内嵌）
+│   ├── presenter.css      # 演讲者窗口样式
+│   └── presenter.js       # 演讲者窗口逻辑
+├── popup/                 # 扩展弹出面板
+├── sidepanel/             # 侧边栏面板
+├── styles/                # 注入页面的 CSS
+├── utils/                 # 工具函数
+└── icons/                 # 扩展图标
+```
+
+## 🗺️ 未来规划
+
+- [x] 📝 **Canvas 画板模式** — 类似 Figma 的自由文本框，精确文字测量与布局
+- [x] 📊 **自定义图表文字排版** — 在用户创建的图表中实现精确的文字排版控制
+- [x] 🖨️ **HTML 转 PDF 精确分页** — 导出 PDF 前预测分页位置，避免内容被截断
+- [x] ✂️ **图片裁剪** — PPT 风格非破坏性裁剪，8 向手柄实时预览
+- [x] 💾 **自动保存** — 首次授权后自动覆盖保存源文件
+- [x] 🎤 **演讲者模式** — 双屏演讲者视图，含可编辑备注、下一页预览、计时器
+- [ ] 🔌 **插件系统** — 可扩展的第三方插件架构
+- [ ] 🤝 **协同编辑** — 实时多人编辑支持
+
+## 🛠️ 技术栈
+
+- **Chrome Extension Manifest V3**
+- **原生 JavaScript**（零框架依赖）
+- **Content Scripts** 注入编辑能力
+- **CSS** 内联注入，不影响原页面结构
+
+## 📋 兼容性
+
+- Chrome 88+（Manifest V3 支持）
+- 支持 `file:///` 本地文件和 `http(s)://` 网页
+
+## 📄 License
+
+MIT License
+
+## 👤 作者
+
+**Tim Zhang**
+- 邮箱：timzhang@qti.qualcomm.com
+- GitHub：[@qti-timzhang](https://github.com/qti-timzhang)
+
 
 一款 Chrome 扩展，让你无需写代码就能直接在浏览器中可视化编辑 HTML 页面。
 

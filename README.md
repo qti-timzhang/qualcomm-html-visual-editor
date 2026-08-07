@@ -1,6 +1,6 @@
 # HTML Visual Editor
 
-> Edit local HTML files visually like a PPT — drag, resize, tables, charts, image paste, image crop, auto-save
+> Edit local HTML files visually like a PPT — drag, resize, image crop, auto-save, dual-screen presenter mode
 
 A Chrome extension that lets you visually edit HTML pages directly in the browser — no coding required.
 
@@ -19,7 +19,7 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 - 🖼️ **Image Handling** — Paste and replace images
 - ✂️ **Image Crop** — PPT-style image cropping with 8-handle drag interface, real-time preview, and non-destructive `clip-path` output
 - 💾 **Auto-Save** — After one-time `Ctrl+S` authorization, edits are automatically saved back to the source file 1.5 s after you stop typing
-- 🎤 **Presenter Mode** — Dual-screen presenter view (press `P` in fullscreen): current slide, next slide preview, speaker notes, and a stopwatch — synced via BroadcastChannel
+- 🎤 **Presenter Mode** — Dual-screen presenter view: current slide full preview, next slide thumbnail, editable speaker notes (auto-saved), and a stopwatch. Press `P` to open. Works with the bundled Qualcomm template.
 - 📏 **Alignment Guides** — Smart snap lines appear while dragging
 - ↩️ **Undo / Redo** — Full operation history
 - 📑 **Page Sorting** — PPT-style page reordering
@@ -33,7 +33,7 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/qti-timzhang/html-visual-editor.git
+   git clone https://github.com/qti-timzhang/qualcomm-html-visual-editor.git
    ```
 
 2. Open Chrome and navigate to `chrome://extensions/`
@@ -51,7 +51,7 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 3. **Click** to select an element → a floating toolbar appears
 4. **Drag** to move elements around
 5. **Double-click** text to enter editing mode
-6. When finished, click **Save** or press `Ctrl+S` to save
+6. When finished, press `Ctrl+S` to save
 
 ## 📸 Screenshots
 
@@ -79,12 +79,26 @@ Select any element to reveal the floating toolbar with formatting, style, and la
 3. The status bar (bottom-right) shows **"保存中…"** while saving and **"已保存"** when done
 4. Permission resets when you close the tab — press `Ctrl+S` once per session to reauthorize
 
+### 🎤 Presenter Mode
+
+Designed for the bundled Qualcomm PPT template (download from the extension popup).
+
+1. Open the template in Chrome and enable edit mode
+2. Click the **💬 notes button** in the toolbar to open the speaker notes sidebar — type notes for each slide
+3. Press **`P`** to open the presenter window (works without fullscreen too)
+4. The presenter window shows:
+   - **Left**: current slide full preview
+   - **Top-right**: next slide thumbnail
+   - **Middle-right**: stopwatch with start / pause / reset
+   - **Bottom-right**: editable speaker notes — changes auto-save back to the main file
+5. Use **arrow keys** or the **◀ ▶ buttons** to navigate — both windows stay in sync
+
 ### 📥 Qualcomm PPT Template
 
 A ready-to-use Qualcomm-branded HTML presentation template is bundled with the extension. Click **"下载 Qualcomm PPT 模板"** in the extension popup to download it, then open the file in Chrome and start editing immediately.
 
 ![Qualcomm Template Preview](docs/screenshots/qualcomm-template-preview.png)
-*Qualcomm HTML PPT template — cover slide. Includes 9 slide layouts: cover, agenda, section divider, content cards, comparison, process flow, table, diagram, and closing.*
+*Qualcomm HTML PPT template — cover slide. Includes 8 slide layouts: cover, agenda, section divider, content cards, comparison, process flow, table, and diagram.*
 
 ## 🏗️ Project Structure
 
@@ -101,6 +115,7 @@ A ready-to-use Qualcomm-branded HTML presentation template is bundled with the e
 │   ├── table-edit.js      # Table editing
 │   ├── image-handler.js   # Image handling
 │   ├── image-crop.js      # Image crop (PPT-style, non-destructive)
+│   ├── notes-editor.js    # Speaker notes sidebar
 │   ├── align-guide.js     # Alignment guides
 │   ├── insert-panel.js    # Insert panel
 │   ├── context-menu.js    # Context menu
@@ -109,6 +124,11 @@ A ready-to-use Qualcomm-branded HTML presentation template is bundled with the e
 │   ├── pdf-paginator.js   # PDF pagination & export
 │   ├── chart-typography.js# Chart components & typography
 │   └── history.js         # Undo / Redo
+├── templates/             # Bundled presentation templates
+│   ├── qualcomm-template.html  # Self-contained Qualcomm PPT template
+│   ├── presenter.html     # Presenter window (embedded as Blob URL)
+│   ├── presenter.css      # Presenter window styles
+│   └── presenter.js       # Presenter window logic
 ├── popup/                 # Extension popup panel
 ├── sidepanel/             # Side panel
 ├── styles/                # CSS injected into pages
@@ -123,7 +143,7 @@ A ready-to-use Qualcomm-branded HTML presentation template is bundled with the e
 - [x] 🖨️ **HTML-to-PDF Pagination** — Preview page breaks, smart pagination that avoids mid-element breaks, and PDF export
 - [x] ✂️ **Image Crop** — PPT-style non-destructive image cropping with 8-handle drag interface and real-time preview
 - [x] 💾 **Auto-Save** — Automatically overwrite the source file after one-time browser permission grant
-- [x] 🎤 **Presenter Mode** — Dual-screen PPT-style presenter view with notes, next-slide preview, and timer
+- [x] 🎤 **Presenter Mode** — Dual-screen presenter view with editable speaker notes, next-slide preview, and timer
 - [ ] 🔌 **Plugin System** — Extensible third-party plugin architecture
 - [ ] 🤝 **Collaborative Editing** — Real-time multi-user editing support
 
