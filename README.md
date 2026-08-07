@@ -61,6 +61,9 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 5. Click **↺ Reset** (toolbar) to remove the crop at any time
 6. Crop is stored as `clip-path: inset(...)` — original image data is never modified
 
+![Image Crop Demo](docs/screenshots/crop-demo.png)
+*PPT-style crop mode — drag the 8 white handles to adjust the visible region. The dark overlay shows the cropped-out area. Click ✓ Apply to confirm.*
+
 ### 💾 Auto-Save
 
 1. Make any edit, then press `Ctrl+S` once — Chrome asks for write permission to the file
