@@ -52,6 +52,13 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 5. **Double-click** text to enter editing mode
 6. When finished, click **Save** or press `Ctrl+S` to save
 
+## 📸 Screenshots
+
+### Floating Toolbar & Right-click Context Menu
+Select any element to reveal the floating toolbar with formatting, style, and layout controls. Right-click for quick actions: copy/paste styles, move layers, lock, or delete elements.
+
+![Toolbar and Context Menu](docs/screenshots/context-menu-demo.png)
+
 ### ✂️ Image Crop
 
 1. Click to select any `<img>` element — the toolbar shows a **✂️ crop button**
