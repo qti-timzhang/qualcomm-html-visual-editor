@@ -19,7 +19,8 @@ window.HVE_Resize = (function () {
     handleContainer = document.createElement('div');
     handleContainer.setAttribute('data-hve-editor', 'true');
     handleContainer.setAttribute('data-hve-resize-container', 'true');
-    handleContainer.style.cssText = 'position:absolute;pointer-events:none;z-index:2147483640;';
+    // position:fixed — 基于视口坐标，不受页面/容器滚动影响
+    handleContainer.style.cssText = 'position:fixed;pointer-events:none;z-index:2147483640;';
     document.body.appendChild(handleContainer);
   }
 
@@ -30,9 +31,14 @@ window.HVE_Resize = (function () {
     createHandleContainer();
     updateHandlePositions();
     handleContainer.style.display = 'block';
+    // 滚动/窗口变化时实时更新手柄位置
+    window.addEventListener('scroll', updateHandlePositions, true);
+    window.addEventListener('resize', updateHandlePositions);
   }
 
   function detach() {
+    window.removeEventListener('scroll', updateHandlePositions, true);
+    window.removeEventListener('resize', updateHandlePositions);
     currentTarget = null;
     if (handleContainer) {
       handleContainer.innerHTML = '';
@@ -44,12 +50,10 @@ window.HVE_Resize = (function () {
     if (!currentTarget || !handleContainer) return;
 
     const rect = getEffectiveRect(currentTarget);
-    const scrollX = window.scrollX || window.pageXOffset;
-    const scrollY = window.scrollY || window.pageYOffset;
 
-    handleContainer.style.left = (rect.left + scrollX) + 'px';
-    handleContainer.style.top = (rect.top + scrollY) + 'px';
-    handleContainer.style.width = rect.width + 'px';
+    handleContainer.style.left   = rect.left   + 'px';
+    handleContainer.style.top    = rect.top    + 'px';
+    handleContainer.style.width  = rect.width  + 'px';
     handleContainer.style.height = rect.height + 'px';
     handleContainer.innerHTML = '';
 
