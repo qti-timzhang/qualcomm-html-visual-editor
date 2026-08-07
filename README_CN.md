@@ -123,3 +123,9 @@
 ## 📄 License
 
 MIT License
+
+## 👤 作者
+
+**Tim Zhang**
+- 邮箱：timzhang@qti.qualcomm.com
+- GitHub：[@joyxiaofan-beep](https://github.com/joyxiaofan-beep)

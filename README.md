@@ -123,3 +123,9 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 ## 📄 License
 
 MIT License
+
+## 👤 Author
+
+**Tim Zhang**
+- Email: timzhang@qti.qualcomm.com
+- GitHub: [@joyxiaofan-beep](https://github.com/joyxiaofan-beep)
