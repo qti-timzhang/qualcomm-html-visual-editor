@@ -78,6 +78,13 @@ Select any element to reveal the floating toolbar with formatting, style, and la
 3. The status bar (bottom-right) shows **"保存中…"** while saving and **"已保存"** when done
 4. Permission resets when you close the tab — press `Ctrl+S` once per session to reauthorize
 
+### 📥 Qualcomm PPT Template
+
+A ready-to-use Qualcomm-branded HTML presentation template is bundled with the extension. Click **"下载 Qualcomm PPT 模板"** in the extension popup to download it, then open the file in Chrome and start editing immediately.
+
+![Qualcomm Template Preview](docs/screenshots/qualcomm-template-preview.png)
+*Qualcomm HTML PPT template — cover slide. Includes 9 slide layouts: cover, agenda, section divider, content cards, comparison, process flow, table, diagram, and closing.*
+
 ## 🏗️ Project Structure
 
 ```

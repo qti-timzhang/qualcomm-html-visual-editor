@@ -78,6 +78,13 @@
 3. 右下角状态栏显示 **"保存中…"** 和 **"已保存"** 状态提示
 4. 关闭标签页后权限重置，重新打开时再次按 `Ctrl+S` 授权一次即可
 
+### 📥 Qualcomm PPT 模板
+
+扩展内置了一套 Qualcomm 官方风格的 HTML 演示模板。点击扩展弹窗中的 **「下载 Qualcomm PPT 模板」** 按钮下载，用 Chrome 打开后即可直接编辑。
+
+![Qualcomm 模板预览](docs/screenshots/qualcomm-template-preview.png)
+*Qualcomm HTML PPT 模板 — 封面页。包含 9 种幻灯片布局：封面、议程、章节页、内容卡片、对比、流程图、表格、图表、结束页。*
+
 ## 🏗️ 项目结构
 
 ```
