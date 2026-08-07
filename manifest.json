@@ -13,7 +13,8 @@
     "scripting",
     "sidePanel",
     "contextMenus",
-    "storage"
+    "storage",
+    "downloads"
   ],
   "background": {
     "service_worker": "background/service-worker.js"
@@ -59,7 +60,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["icons/*", "styles/*"],
+      "resources": ["icons/*", "styles/*", "templates/*"],
       "matches": ["<all_urls>", "file:///*"]
     }
   ]

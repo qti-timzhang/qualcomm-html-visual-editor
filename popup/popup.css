@@ -149,6 +149,42 @@ body {
   background: #EBE7E0;
 }
 
+.btn-template {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #3253DC;
+  border-radius: 10px;
+  background: #F0F4FF;
+  color: #3253DC;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.btn-template:hover {
+  background: #3253DC;
+  color: #fff;
+}
+
+.btn-template:active {
+  background: #243DA8;
+  border-color: #243DA8;
+  color: #fff;
+  transform: scale(0.97);
+}
+
+.template-hint {
+  font-size: 11px;
+  color: #9C8E82;
+  margin: 0;
+  padding: 0 2px;
+}
+
 .btn-icon {
   flex-shrink: 0;
 }

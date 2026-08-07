@@ -77,6 +77,7 @@
             'content/text-edit.js',
             'content/table-edit.js',
             'content/image-handler.js',
+            'content/image-crop.js',
             'content/align-guide.js',
             'content/toolbar.js',
             'content/insert-panel.js',
@@ -112,6 +113,16 @@
   // 另存为
   btnSaveAs.addEventListener('click', async () => {
     await sendToActiveTab({ type: 'SAVE_FILE_AS' });
+  });
+
+  // 下载 Qualcomm PPT 模板
+  document.getElementById('btn-download-template').addEventListener('click', () => {
+    const url = chrome.runtime.getURL('templates/qualcomm-template.html');
+    chrome.downloads.download({
+      url,
+      filename: 'qualcomm-presentation.html',
+      saveAs: true
+    });
   });
 
   // 初始化时查询状态
