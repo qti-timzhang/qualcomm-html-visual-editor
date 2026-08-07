@@ -32,7 +32,7 @@
 
 1. 克隆本仓库：
    ```bash
-   git clone https://github.com/joyxiaofan-beep/html-visual-editor.git
+   git clone https://github.com/qti-timzhang/html-visual-editor.git
    ```
 
 2. 打开 Chrome，访问 `chrome://extensions/`

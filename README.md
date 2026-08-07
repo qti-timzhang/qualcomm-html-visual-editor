@@ -32,7 +32,7 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/joyxiaofan-beep/html-visual-editor.git
+   git clone https://github.com/qti-timzhang/html-visual-editor.git
    ```
 
 2. Open Chrome and navigate to `chrome://extensions/`
