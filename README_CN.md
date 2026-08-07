@@ -128,4 +128,4 @@ MIT License
 
 **Tim Zhang**
 - 邮箱：timzhang@qti.qualcomm.com
-- GitHub：[@joyxiaofan-beep](https://github.com/joyxiaofan-beep)
+- GitHub：[@qti-timzhang](https://github.com/qti-timzhang)
