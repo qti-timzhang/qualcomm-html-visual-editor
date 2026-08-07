@@ -93,6 +93,9 @@ Designed for the bundled Qualcomm PPT template (download from the extension popu
    - **Bottom-right**: editable speaker notes — changes auto-save back to the main file
 5. Use **arrow keys** or the **◀ ▶ buttons** to navigate — both windows stay in sync
 
+![Presenter Mode Demo](docs/screenshots/presenter-mode-demo.png)
+*Dual-screen presenter view — left: current slide preview; top-right: next slide thumbnail; middle-right: stopwatch; bottom-right: editable speaker notes that auto-save back to the source file.*
+
 ### 📥 Qualcomm PPT Template
 
 A ready-to-use Qualcomm-branded HTML presentation template is bundled with the extension. Click **"下载 Qualcomm PPT 模板"** in the extension popup to download it, then open the file in Chrome and start editing immediately.
