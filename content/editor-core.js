@@ -3,6 +3,80 @@ window.HVE_Core = (function () {
   let isActive = false;
   let statusIndicator = null;
 
+  // ========== 自动保存 ==========
+  let autoSaveTimer   = null;
+  let autoSaveObserver = null;
+  const AUTO_SAVE_DELAY = 1500; // ms，最后一次变更后多久自动保存
+
+  function startAutoSave() {
+    stopAutoSave();
+    autoSaveObserver = new MutationObserver((mutations) => {
+      if (!isActive) return;
+      if (!window.HVE_FileManager?.hasFileHandle()) return;
+      // 过滤掉编辑器自身元素产生的变化，避免无限循环
+      const hasRealChange = mutations.some(m => {
+        const target = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+        return target && !target.closest('[data-hve-editor]');
+      });
+      if (!hasRealChange) return;
+      clearTimeout(autoSaveTimer);
+      setAutoSaveStatus('pending');
+      autoSaveTimer = setTimeout(async () => {
+        if (!window.HVE_Serializer || !window.HVE_FileManager) return;
+        try {
+          // 保存期间暂停观察，避免 serialize() 的 DOM 操作再次触发
+          autoSaveObserver.disconnect();
+          const html = window.HVE_Serializer.serialize();
+          await window.HVE_FileManager.saveFile(html);
+          setAutoSaveStatus('saved');
+        } catch (e) {
+          setAutoSaveStatus('idle');
+        } finally {
+          // 恢复观察
+          autoSaveObserver.observe(document.body, {
+            childList: true, subtree: true,
+            attributes: true, characterData: false,
+            attributeFilter: ['style', 'src', 'href']
+          });
+        }
+      }, AUTO_SAVE_DELAY);
+    });
+    autoSaveObserver.observe(document.body, {
+      childList: true, subtree: true,
+      attributes: true, characterData: false,
+      attributeFilter: ['style', 'src', 'href']
+    });
+  }
+
+  function stopAutoSave() {
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer = null;
+    if (autoSaveObserver) { autoSaveObserver.disconnect(); autoSaveObserver = null; }
+    setAutoSaveStatus('idle');
+  }
+
+  // 'idle' | 'pending' | 'saved'
+  function setAutoSaveStatus(state) {
+    if (!statusIndicator) return;
+    const dot = statusIndicator.querySelector('.hve-status-dot');
+    const label = statusIndicator.querySelector('.hve-status-label');
+    if (!dot || !label) return;
+    if (state === 'pending') {
+      dot.style.background = '#FBBF24';
+      label.textContent = ' Visual Editor · 保存中…';
+    } else if (state === 'saved') {
+      dot.style.background = '#4ADE80';
+      label.textContent = ' Visual Editor · 已保存';
+      // 2 秒后恢复默认文字
+      setTimeout(() => {
+        if (label) label.textContent = ' Visual Editor';
+      }, 2000);
+    } else {
+      dot.style.background = '#4ADE80';
+      label.textContent = ' Visual Editor';
+    }
+  }
+
   function enable() {
     if (isActive) return;
     isActive = true;
@@ -21,6 +95,8 @@ window.HVE_Core = (function () {
 
     document.addEventListener('keydown', onKeyDown, true);
     showStatusIndicator();
+    startAutoSave();
+    showWelcomeTip();
     notifyState(true);
     console.log('[HTML Visual Editor] ✅ 编辑模式已开启');
   }
@@ -45,6 +121,7 @@ window.HVE_Core = (function () {
     if (window.HVE_ChartTypo) window.HVE_ChartTypo.deactivate();
 
     document.removeEventListener('keydown', onKeyDown, true);
+    stopAutoSave();
     hideStatusIndicator();
     notifyState(false);
     console.log('[HTML Visual Editor] ⛔ 编辑模式已关闭');
@@ -281,12 +358,56 @@ window.HVE_Core = (function () {
     showToast(success ? '文件已保存 ✓' : '保存失败', success ? 'success' : 'error');
   }
 
+  function showWelcomeTip() {
+    const tip = document.createElement('div');
+    tip.setAttribute('data-hve-editor', 'true');
+    tip.style.cssText = `
+      position:fixed;bottom:72px;left:50%;transform:translateX(-50%);
+      z-index:2147483647;
+      background:#FFFDF9;border:1px solid #E8E5E0;
+      border-radius:16px;
+      box-shadow:0 8px 32px rgba(45,43,40,0.14),0 2px 8px rgba(45,43,40,0.08);
+      padding:16px 20px;min-width:300px;max-width:380px;
+      font-family:'SF Pro Text',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      animation:hve-panel-in 0.25s cubic-bezier(0.4,0,0.2,1);
+    `;
+    tip.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <span style="font-size:18px;">✏️</span>
+        <span style="font-size:14px;font-weight:600;color:#2D2B28;">编辑模式已开启</span>
+        <button data-hve-welcome-close style="margin-left:auto;width:22px;height:22px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:14px;color:#9C8E82;display:flex;align-items:center;justify-content:center;">✕</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;font-size:12px;color:#5D534A;line-height:1.5;">
+        <div style="display:flex;align-items:flex-start;gap:8px;">
+          <span style="background:#FEF3C7;color:#D97706;border-radius:5px;padding:1px 7px;font-weight:600;font-size:11px;flex-shrink:0;margin-top:1px;">自动保存</span>
+          <span>先按 <kbd style="background:#F0EDE8;border:1px solid #E0DDD8;border-radius:4px;padding:1px 5px;font-size:11px;">Ctrl+S</kbd> 完成首次授权，之后每次编辑停止 1.5 秒自动覆盖保存源文件</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;">
+          <span style="background:#F0EDE8;color:#7A6F65;border-radius:5px;padding:1px 7px;font-weight:600;font-size:11px;flex-shrink:0;margin-top:1px;">操作提示</span>
+          <span>单击选中 · 双击编辑文字 · 拖拽移动 · <kbd style="background:#F0EDE8;border:1px solid #E0DDD8;border-radius:4px;padding:1px 5px;font-size:11px;">Ctrl+Z</kbd> 撤销</span>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(tip);
+
+    const close = () => {
+      tip.style.opacity = '0';
+      tip.style.transform = 'translateX(-50%) translateY(6px)';
+      tip.style.transition = 'all 0.25s ease';
+      setTimeout(() => tip.remove(), 250);
+    };
+
+    tip.querySelector('[data-hve-welcome-close]').addEventListener('click', close);
+    // 4 秒后自动消失
+    setTimeout(close, 4000);
+  }
+
   function showStatusIndicator() {
     if (statusIndicator) return;
     statusIndicator = document.createElement('div');
     statusIndicator.setAttribute('data-hve-editor', 'true');
     statusIndicator.setAttribute('data-hve-status', 'true');
-    statusIndicator.innerHTML = '<span class="hve-status-dot"></span> Visual Editor';
+    statusIndicator.innerHTML = '<span class="hve-status-dot"></span><span class="hve-status-label"> Visual Editor</span>';
     statusIndicator.title = '点击关闭编辑模式';
     statusIndicator.addEventListener('click', () => disable());
     document.body.appendChild(statusIndicator);

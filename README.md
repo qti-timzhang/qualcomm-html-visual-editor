@@ -1,6 +1,6 @@
 # HTML Visual Editor
 
-> Edit local HTML files visually like a PPT — drag, resize, tables, charts, image paste
+> Edit local HTML files visually like a PPT — drag, resize, tables, charts, image paste, image crop, auto-save
 
 A Chrome extension that lets you visually edit HTML pages directly in the browser — no coding required.
 
@@ -17,9 +17,10 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 - 🎨 **Style Toolbar** — Change font size, color, bold, alignment and more
 - 📊 **Table Editing** — Add/remove rows & columns, merge cells
 - 🖼️ **Image Handling** — Paste and replace images
+- ✂️ **Image Crop** — PPT-style image cropping with 8-handle drag interface, real-time preview, and non-destructive `clip-path` output
+- 💾 **Auto-Save** — After one-time `Ctrl+S` authorization, edits are automatically saved back to the source file 1.5 s after you stop typing
 - 📏 **Alignment Guides** — Smart snap lines appear while dragging
 - ↩️ **Undo / Redo** — Full operation history
-- 💾 **Save & Export** — Save your edits as an HTML file
 - 📑 **Page Sorting** — PPT-style page reordering
 - 🎨 **Canvas Mode** — Figma-like freeform drawing canvas with text, shapes, lines, arrows
 - 🖨️ **PDF Pagination** — Preview page breaks and export HTML to PDF with smart pagination
@@ -49,7 +50,23 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 3. **Click** to select an element → a floating toolbar appears
 4. **Drag** to move elements around
 5. **Double-click** text to enter editing mode
-6. When finished, click **Save** to export the HTML
+6. When finished, click **Save** or press `Ctrl+S` to save
+
+### ✂️ Image Crop
+
+1. Click to select any `<img>` element — the toolbar shows a **✂️ crop button**
+2. Click the crop button to enter crop mode
+3. Drag any of the 8 handles (edges + corners) to adjust the crop region — real-time preview
+4. Press **Enter** or click **✓ Apply** to confirm; press **Esc** or click **Cancel** to revert
+5. Click **↺ Reset** (toolbar) to remove the crop at any time
+6. Crop is stored as `clip-path: inset(...)` — original image data is never modified
+
+### 💾 Auto-Save
+
+1. Make any edit, then press `Ctrl+S` once — Chrome asks for write permission to the file
+2. Grant permission → from that point on, edits are **automatically saved** to the source file 1.5 seconds after you stop
+3. The status bar (bottom-right) shows **"保存中…"** while saving and **"已保存"** when done
+4. Permission resets when you close the tab — press `Ctrl+S` once per session to reauthorize
 
 ## 🏗️ Project Structure
 
@@ -57,14 +74,15 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 ├── manifest.json          # Extension config (Manifest V3)
 ├── background/            # Service Worker
 ├── content/               # Content Scripts (core editing logic)
-│   ├── editor-core.js     # Editor core controller
+│   ├── editor-core.js     # Editor core controller (incl. auto-save)
 │   ├── selector.js        # Element selector
 │   ├── toolbar.js         # Floating toolbar
 │   ├── drag-move.js       # Drag & move
-│   ├── resize.js          # Resize handling
+│   ├── resize.js          # Resize handling (clip-path aware)
 │   ├── text-edit.js       # Text editing
 │   ├── table-edit.js      # Table editing
 │   ├── image-handler.js   # Image handling
+│   ├── image-crop.js      # Image crop (PPT-style, non-destructive)
 │   ├── align-guide.js     # Alignment guides
 │   ├── insert-panel.js    # Insert panel
 │   ├── context-menu.js    # Context menu
@@ -85,6 +103,8 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 - [x] 🎨 **Canvas Mode** — Figma-like freeform drawing canvas with text, shapes, lines, arrows, color picker, and SVG/PNG export
 - [x] 📊 **Chart Typography** — Pre-built chart components (stat cards, KPI grids, legends, etc.) and fine-grained typography controls
 - [x] 🖨️ **HTML-to-PDF Pagination** — Preview page breaks, smart pagination that avoids mid-element breaks, and PDF export
+- [x] ✂️ **Image Crop** — PPT-style non-destructive image cropping with 8-handle drag interface and real-time preview
+- [x] 💾 **Auto-Save** — Automatically overwrite the source file after one-time browser permission grant
 - [ ] 🔌 **Plugin System** — Extensible third-party plugin architecture
 - [ ] 🤝 **Collaborative Editing** — Real-time multi-user editing support
 

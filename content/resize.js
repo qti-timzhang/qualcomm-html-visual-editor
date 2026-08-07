@@ -43,7 +43,7 @@ window.HVE_Resize = (function () {
   function updateHandlePositions() {
     if (!currentTarget || !handleContainer) return;
 
-    const rect = currentTarget.getBoundingClientRect();
+    const rect = getEffectiveRect(currentTarget);
     const scrollX = window.scrollX || window.pageXOffset;
     const scrollY = window.scrollY || window.pageYOffset;
 
@@ -197,6 +197,42 @@ window.HVE_Resize = (function () {
 
   function isResizing() {
     return isResizingFlag;
+  }
+
+  /**
+   * 获取元素的有效可见矩形。
+   * 若元素有 clip-path: inset(T R B L)，将 getBoundingClientRect() 的结果
+   * 按裁剪偏移量收缩，使 resize 手柄对齐可见区域的边角。
+   */
+  function getEffectiveRect(el) {
+    const rect = el.getBoundingClientRect();
+    const clip = el.style.clipPath;
+    if (!clip) return rect;
+
+    const m = clip.match(/inset\(\s*([^)]+)\s*\)/);
+    if (!m) return rect;
+
+    const parts = m[1].trim().split(/\s+/);
+    function toPixels(val, dim) {
+      if (!val) return 0;
+      if (val.endsWith('%'))  return parseFloat(val) / 100 * dim;
+      if (val.endsWith('px')) return parseFloat(val);
+      return 0;
+    }
+
+    const t = toPixels(parts[0], rect.height);
+    const r = toPixels(parts[1], rect.width);
+    const b = toPixels(parts[2], rect.height);
+    const l = toPixels(parts[3], rect.width);
+
+    return {
+      left:   rect.left   + l,
+      top:    rect.top    + t,
+      right:  rect.right  - r,
+      bottom: rect.bottom - b,
+      width:  rect.width  - l - r,
+      height: rect.height - t - b,
+    };
   }
 
   function destroy() {

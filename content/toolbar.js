@@ -78,6 +78,15 @@ window.HVE_Toolbar = (function () {
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" opacity="0.4"/><path d="M12 3a9 9 0 010 18" fill="currentColor" opacity="0.15"/></svg>
         </button>
       </div>
+      <div class="hve-tb-sep hve-tb-img-sep" style="display:none;"></div>
+      <div class="hve-tb-group" id="hve-tb-img-group" style="display:none;">
+        <button data-action="crop-image" title="裁剪图片 (PPT 风格)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v14a2 2 0 002 2h14"/><path d="M18 22V8a2 2 0 00-2-2H2"/></svg>
+        </button>
+        <button data-action="reset-crop" title="重置裁剪">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 109-9H3"/><polyline points="3,5 3,12 10,12"/></svg>
+        </button>
+      </div>
       <div class="hve-tb-sep"></div>
       <div class="hve-tb-group">
         <button data-action="insert-menu" title="插入...">
@@ -484,6 +493,39 @@ window.HVE_Toolbar = (function () {
 
       case 'format-brush':
         activateFormatBrush(el);
+        break;
+
+      case 'crop-image':
+        console.log('[HVE] crop-image clicked, el=', el, 'HVE_ImageCrop=', window.HVE_ImageCrop);
+        if (!window.HVE_ImageCrop) {
+          if (window.HVE_Core) window.HVE_Core.showToast('裁剪模块未加载，请重新加载扩展', 'error');
+          break;
+        }
+        if (!el || el.tagName !== 'IMG') {
+          if (window.HVE_Core) window.HVE_Core.showToast('请先选中图片', 'info');
+          break;
+        }
+        window.HVE_ImageCrop.startCrop(el);
+        break;
+
+      case 'reset-crop':
+        if (el && el.tagName === 'IMG') {
+          const oldClip = el.style.clipPath || '';
+          if (oldClip) {
+            if (window.HVE_History) {
+              window.HVE_History.record({
+                type: 'style', element: el,
+                before: { style: { clipPath: oldClip } },
+                after:  { style: { clipPath: '' } },
+                description: '重置图片裁剪'
+              });
+            }
+            el.style.clipPath = '';
+            if (window.HVE_Core) window.HVE_Core.showToast('裁剪已重置 ✓', 'success');
+          } else {
+            if (window.HVE_Core) window.HVE_Core.showToast('图片无裁剪', 'info');
+          }
+        }
         break;
     }
   }
@@ -943,6 +985,12 @@ window.HVE_Toolbar = (function () {
     if (!isActive) return;
     currentTarget = el;
     createToolbar();
+    // 根据选中元素类型切换图片工具组
+    const isImg = el && el.tagName === 'IMG';
+    const imgGroup = toolbarEl.querySelector('#hve-tb-img-group');
+    const imgSep   = toolbarEl.querySelector('.hve-tb-img-sep');
+    if (imgGroup) imgGroup.style.display = isImg ? 'flex' : 'none';
+    if (imgSep)   imgSep.style.display   = isImg ? 'block' : 'none';
     // 先设为可见（display:flex），这样才能正确获取 offsetWidth
     toolbarEl.style.display = 'flex';
     positionToolbar(el);

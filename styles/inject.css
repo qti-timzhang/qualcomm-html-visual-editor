@@ -1727,3 +1727,65 @@ th[data-hve-editing] {
   color: #D97706;
   box-shadow: inset 0 0 0 1px rgba(217,119,6,0.2);
 }
+
+/* ============================================
+   图片裁剪模式样式
+   ============================================ */
+
+/* 全屏遮罩 */
+[data-hve-crop-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483644;
+  cursor: default;
+}
+
+/* 操作栏 */
+[data-hve-crop-bar] {
+  position: fixed;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 12px;
+  background: rgba(30, 27, 24, 0.88);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  z-index: 2147483647;
+  font-family: 'SF Pro Text',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  min-width: 200px;
+}
+
+[data-hve-crop-bar] button {
+  padding: 5px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+[data-hve-crop-bar] button[data-crop-action="reset"] {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.65);
+  padding-left: 0;
+}
+
+[data-hve-crop-bar] button[data-crop-action="reset"]:hover {
+  color: white;
+}
+
+[data-hve-crop-bar] button[data-crop-action="cancel"]:hover {
+  background: rgba(255,255,255,0.12) !important;
+}
+
+[data-hve-crop-bar] button[data-crop-action="apply"]:hover {
+  background: #B45309 !important;
+  box-shadow: 0 2px 8px rgba(217,119,6,0.4);
+}
