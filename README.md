@@ -19,6 +19,7 @@ A Chrome extension that lets you visually edit HTML pages directly in the browse
 - 🖼️ **Image Handling** — Paste and replace images
 - ✂️ **Image Crop** — PPT-style image cropping with 8-handle drag interface, real-time preview, and non-destructive `clip-path` output
 - 💾 **Auto-Save** — After one-time `Ctrl+S` authorization, edits are automatically saved back to the source file 1.5 s after you stop typing
+- 🎤 **Presenter Mode** — Dual-screen presenter view (press `P` in fullscreen): current slide, next slide preview, speaker notes, and a stopwatch — synced via BroadcastChannel
 - 📏 **Alignment Guides** — Smart snap lines appear while dragging
 - ↩️ **Undo / Redo** — Full operation history
 - 📑 **Page Sorting** — PPT-style page reordering
@@ -122,6 +123,7 @@ A ready-to-use Qualcomm-branded HTML presentation template is bundled with the e
 - [x] 🖨️ **HTML-to-PDF Pagination** — Preview page breaks, smart pagination that avoids mid-element breaks, and PDF export
 - [x] ✂️ **Image Crop** — PPT-style non-destructive image cropping with 8-handle drag interface and real-time preview
 - [x] 💾 **Auto-Save** — Automatically overwrite the source file after one-time browser permission grant
+- [x] 🎤 **Presenter Mode** — Dual-screen PPT-style presenter view with notes, next-slide preview, and timer
 - [ ] 🔌 **Plugin System** — Extensible third-party plugin architecture
 - [ ] 🤝 **Collaborative Editing** — Real-time multi-user editing support
 

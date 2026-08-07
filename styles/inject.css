@@ -1789,3 +1789,89 @@ th[data-hve-editing] {
   background: #B45309 !important;
   box-shadow: 0 2px 8px rgba(217,119,6,0.4);
 }
+
+/* ============================================
+   演讲者备注侧边栏
+   ============================================ */
+[data-hve-notes-panel] {
+  position: fixed;
+  bottom: 72px;
+  right: 20px;
+  width: 320px;
+  z-index: 2147483645;
+  background: #FFFDF9;
+  border: 1px solid #E8E5E0;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(45,43,40,0.15);
+  font-family: 'SF Pro Text',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: hve-panel-in 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.hve-notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #FAF7F2;
+  border-bottom: 1px solid #E8E5E0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2D2B28;
+}
+
+.hve-notes-header button {
+  width: 22px; height: 22px;
+  border: none; background: transparent;
+  border-radius: 6px; cursor: pointer;
+  font-size: 13px; color: #9C8E82;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.hve-notes-header button:hover { background: #F0EDE8; color: #2D2B28; }
+
+.hve-notes-hint {
+  padding: 8px 14px;
+  font-size: 12px;
+  color: #9C8E82;
+}
+
+.hve-notes-textarea {
+  resize: none;
+  border: none;
+  outline: none;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #2D2B28;
+  font-family: inherit;
+  background: transparent;
+  min-height: 120px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.hve-notes-textarea:disabled { color: #B8ADA4; }
+
+.hve-notes-footer {
+  padding: 8px 14px;
+  border-top: 1px solid #E8E5E0;
+}
+
+.hve-notes-footer button {
+  width: 100%;
+  padding: 7px 0;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #3253DC, #1a2e84);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.hve-notes-footer button:hover { opacity: 0.88; }

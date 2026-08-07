@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Presenter — Qualcomm HTML Deck</title>
+  <link rel="stylesheet" href="presenter.css">
+</head>
+<body>
+  <div class="presenter-layout">
+
+    <!-- 左栏：当前幻灯片全尺寸预览 -->
+    <div class="col-main">
+      <div class="slide-preview current-preview" id="current-preview">
+        <div class="preview-label">当前页</div>
+        <div class="slide-frame" id="current-frame"></div>
+      </div>
+    </div>
+
+    <!-- 右栏：下一页 + 计时器 + 备注 -->
+    <div class="col-side">
+      <div class="slide-preview next-preview">
+        <div class="preview-label">下一页</div>
+        <div class="slide-frame" id="next-frame"></div>
+      </div>
+
+      <div class="presenter-timer" id="timer">
+        <span id="timer-display">00:00</span>
+        <div class="timer-controls">
+          <button id="btn-timer-toggle">开始</button>
+          <button id="btn-timer-reset">重置</button>
+        </div>
+      </div>
+
+      <div class="presenter-notes">
+        <div class="notes-label">演讲者备注</div>
+        <div class="notes-content" id="notes-content">（无备注）</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 底部导航栏 -->
+  <div class="presenter-nav">
+    <button id="btn-prev">◀ 上一页</button>
+    <span class="slide-counter" id="slide-counter">1 / 1</span>
+    <button id="btn-next">下一页 ▶</button>
+  </div>
+
+  <script src="presenter.js"></script>
+</body>
+</html>

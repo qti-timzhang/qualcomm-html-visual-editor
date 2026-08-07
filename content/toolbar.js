@@ -131,6 +131,11 @@ window.HVE_Toolbar = (function () {
         <button data-action="chart-typo" title="图表排版工具">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M17.5 14v7M14.5 17.5h6"/></svg>
         </button>
+        <button data-action="notes-editor" title="演讲者备注 & 演讲者模式">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </button>
         <button data-action="undo" title="撤销 (⌘Z)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 105.64-11.36L1 10"/></svg>
         </button>
@@ -489,6 +494,10 @@ window.HVE_Toolbar = (function () {
         break;
       case 'redo':
         if (window.HVE_History) window.HVE_History.redo();
+        break;
+
+      case 'notes-editor':
+        if (window.HVE_NotesEditor) window.HVE_NotesEditor.toggle();
         break;
 
       case 'format-brush':

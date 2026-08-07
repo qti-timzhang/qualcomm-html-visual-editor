@@ -22,6 +22,8 @@ window.HVE_Core = (function () {
       clearTimeout(autoSaveTimer);
       setAutoSaveStatus('pending');
       autoSaveTimer = setTimeout(async () => {
+        // stopAutoSave() 可能在此 timeout 触发前已将 autoSaveObserver 置 null
+        if (!autoSaveObserver) return;
         if (!window.HVE_Serializer || !window.HVE_FileManager) return;
         try {
           // 保存期间暂停观察，避免 serialize() 的 DOM 操作再次触发

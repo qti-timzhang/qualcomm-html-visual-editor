@@ -44,6 +44,7 @@
         "content/table-edit.js",
         "content/image-handler.js",
         "content/image-crop.js",
+        "content/notes-editor.js",
         "content/align-guide.js",
         "content/toolbar.js",
         "content/insert-panel.js",
